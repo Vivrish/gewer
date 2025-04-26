@@ -1,6 +1,7 @@
 val koin_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
+val exposed_version = "0.50.1"
 
 plugins {
     kotlin("jvm") version "2.1.10"
@@ -31,6 +32,11 @@ dependencies {
     implementation("io.grpc:grpc-netty-shaded:1.59.0")
     implementation("com.google.protobuf:protobuf-java:3.25.0")
     implementation("io.minio:minio:8.5.7")
+
+    implementation("org.jetbrains.exposed:exposed-core:${exposed_version}")
+    implementation("org.jetbrains.exposed:exposed-dao:${exposed_version}")
+    implementation("org.jetbrains.exposed:exposed-jdbc:${exposed_version}")
+    implementation("org.postgresql:postgresql:42.7.1")
 
     implementation("io.ktor:ktor-server-call-logging")
     implementation("io.ktor:ktor-server-core")
