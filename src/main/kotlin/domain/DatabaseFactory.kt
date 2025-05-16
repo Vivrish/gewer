@@ -13,10 +13,15 @@ object DatabaseFactory {
     private val logger = LoggerFactory.getLogger(this::class.java)
     fun init() {
         logger.info("Connecting to database...")
+//        Database.connect(
+//            url = System.getenv("DB_URL"),
+//            user = System.getenv("DB_USER"),
+//            password = System.getenv("DB_PASSWORD"),
+//        )
         Database.connect(
-            url = System.getenv("DB_URL"),
-            user = System.getenv("DB_USER"),
-            password = System.getenv("DB_PASSWORD"),
+            url = "jdbc:postgresql://localhost:5432/db",
+            user = "postgres",
+            password = "secretpassword"
         )
         logger.info("Database connection established.")
         transaction { SchemaUtils.create(Users, FilesMetaData, UsersFilesMetadata) }

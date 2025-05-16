@@ -1,21 +1,19 @@
 package cz.cvut.fit.ejk
 
-import cz.cvut.fit.ejk.di.appModule
-import io.ktor.serialization.kotlinx.json.*
-import io.ktor.server.application.*
-import io.ktor.server.plugins.calllogging.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
+import io.ktor.server.application.Application
+import io.ktor.server.application.install
+import io.ktor.server.resources.Resources
 import io.ktor.server.routing.*
-import org.koin.dsl.module
+import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
-import org.slf4j.event.*
+import cz.cvut.fit.ejk.di.appModule
 
 fun Application.configureFrameworks() {
     install(Koin) {
         slf4jLogger()
         modules(appModule)
     }
+    install(Resources)
 }

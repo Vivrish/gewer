@@ -2,6 +2,7 @@ val koin_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
 val exposed_version = "0.50.1"
+val ktor_version = "3.1.2"
 
 plugins {
     kotlin("jvm") version "2.1.10"
@@ -27,6 +28,7 @@ repositories {
 }
 
 dependencies {
+    implementation("io.ktor:ktor-server-resources:${ktor_version}")
     implementation("io.grpc:grpc-kotlin-stub:1.4.0")
     implementation("io.grpc:grpc-protobuf:1.59.0")
     implementation("io.grpc:grpc-netty-shaded:1.59.0")
@@ -38,15 +40,16 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:${exposed_version}")
     implementation("org.postgresql:postgresql:42.7.1")
 
-    implementation("io.ktor:ktor-server-call-logging")
-    implementation("io.ktor:ktor-server-core")
-    implementation("io.ktor:ktor-server-content-negotiation")
-    implementation("io.ktor:ktor-serialization-kotlinx-json")
+    implementation("io.ktor:ktor-server-call-logging:${ktor_version}")
+    implementation("io.ktor:ktor-server-core:${ktor_version}")
+    implementation("io.ktor:ktor-server-content-negotiation:${ktor_version}")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:${ktor_version}")
     implementation("io.insert-koin:koin-ktor:$koin_version")
     implementation("io.insert-koin:koin-logger-slf4j:$koin_version")
-    implementation("io.ktor:ktor-server-netty")
+    implementation("io.ktor:ktor-server-netty:${ktor_version}")
     implementation("ch.qos.logback:logback-classic:$logback_version")
-    implementation("io.ktor:ktor-server-config-yaml")
-    testImplementation("io.ktor:ktor-server-test-host")
+    implementation("io.ktor:ktor-server-config-yaml:${ktor_version}")
+    implementation("io.ktor:ktor-server-openapi:3.1.2")
+    testImplementation("io.ktor:ktor-server-test-host:${ktor_version}")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }

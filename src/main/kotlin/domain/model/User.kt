@@ -3,6 +3,7 @@ package cz.cvut.fit.ejk.domain.model
 import cz.cvut.fit.ejk.domain.table.FilesMetaData
 import cz.cvut.fit.ejk.domain.table.Users
 import cz.cvut.fit.ejk.domain.table.UsersFilesMetadata
+import cz.cvut.fit.ejk.dto.CreateUserDto
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
