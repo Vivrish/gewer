@@ -1,6 +1,9 @@
 package cz.cvut.fit.ejk.domain
 
 
+import cz.cvut.fit.ejk.domain.table.FilesMetaData
+import cz.cvut.fit.ejk.domain.table.Users
+import cz.cvut.fit.ejk.domain.table.UsersFilesMetadata
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -16,7 +19,6 @@ object DatabaseFactory {
             password = System.getenv("DB_PASSWORD"),
         )
         logger.info("Database connection established.")
-
         transaction { SchemaUtils.create(Users, FilesMetaData, UsersFilesMetadata) }
         logger.info("Database tables created.")
     }

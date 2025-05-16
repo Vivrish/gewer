@@ -1,5 +1,6 @@
 package cz.cvut.fit.ejk
 
+import cz.cvut.fit.ejk.di.appModule
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.calllogging.*
@@ -15,12 +16,6 @@ import org.slf4j.event.*
 fun Application.configureFrameworks() {
     install(Koin) {
         slf4jLogger()
-        modules(module {
-            single<HelloService> {
-                HelloService {
-                    println(environment.log.info("Hello, World!"))
-                }
-            }
-        })
+        modules(appModule)
     }
 }

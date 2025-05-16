@@ -1,18 +1,13 @@
-package cz.cvut.fit.ejk.domain
+package cz.cvut.fit.ejk.domain.table
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.dao.id.IntIdTable
 
-object FilesMetaData: Table() {
-    val id = uuid("id").autoGenerate()
-    override val primaryKey = PrimaryKey(
-        id
-    )
+
+object FilesMetaData: IntIdTable("files_metadata") {
     val filename = varchar("filename", 255).uniqueIndex()
     val path = varchar("path", 255).uniqueIndex()
     val fileType = enumerationByName<FileType>("file_type", 255)
     val size = long("size")
-
-    val createdBy = reference("created_by", Users.id)
 }
 
 enum class FileType {

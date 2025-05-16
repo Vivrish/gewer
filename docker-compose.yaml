@@ -11,9 +11,6 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
   gewer:
     container_name: "gewer"
     build: .
@@ -24,10 +21,3 @@ services:
       - .env
     depends_on:
       - postgres
-
-
-volumes:
-  pgdata:
-
-
-

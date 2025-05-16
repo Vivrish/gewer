@@ -1,8 +1,9 @@
-package cz.cvut.fit.ejk.domain
+package cz.cvut.fit.ejk.domain.table
+
 
 import org.jetbrains.exposed.sql.Table
 
-object UsersFilesMetadata: Table() {
+object UsersFilesMetadata: Table("users_files_metadata") {
     val userId = reference("user_id", Users.id)
     val fileId = reference("file_id", FilesMetaData.id)
     override val primaryKey = PrimaryKey(
