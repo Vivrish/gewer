@@ -1,0 +1,11 @@
+ktor:
+  application:
+    modules:
+      - cz.cvut.fit.ejk.server.ApplicationKt.module
+  deployment:
+    port: 8080
+minio:
+  endpoint: "http://minio:9000"
+  accessKey: "minioadmin"
+  secretKey: "minioadmin"
+  bucket: "files"
