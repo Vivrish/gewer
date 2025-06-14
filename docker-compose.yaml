@@ -11,13 +11,27 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-  gewer:
-    container_name: "gewer"
-    build: .
-    image: gewer:latest
+  minio:
+    image: quay.io/minio/minio
+    container_name: minio
+    restart: always
+    env_file:
+      - .env
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+  gewer-server:
+    container_name: "gewer-server"
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    image: gewer-server:latest
     ports:
       - "8080:8080"
+      - "50051:50051"
     env_file:
       - .env
     depends_on:
+      - minio
       - postgres

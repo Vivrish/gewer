@@ -1,0 +1,3 @@
+#!/bin/sh
+
+java -jar /Users/mujmac/IdeaProjects/gewer/client/build/libs/client-all.jar "$@"

@@ -2,3 +2,8 @@
 .github
 .gradle
 .kotlin
+**/build/
+.gradle/
+.git/
+*.iml
+*.log
