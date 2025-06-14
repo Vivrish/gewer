@@ -12,7 +12,7 @@ import kotlinx.coroutines.runBlocking
 import java.io.File
 
 class DownloadFile: CliktCommand(name = "download"){
-    private val fileId by option("--file-id").int()
+    private val fileId by option("--id").int()
 
 
     override fun run() {

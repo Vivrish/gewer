@@ -1,8 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
-val koin_version: String by project
-val kotlin_version: String by project
-val logback_version: String by project
 val ktor_version = "3.1.2"
 
 plugins {
@@ -36,6 +33,8 @@ protobuf {
 
 dependencies {
     implementation(project(":shared"))
+
+    implementation("io.insert-koin:koin-logger-slf4j:3.1.2")
 
     // --- gRPC ---
     implementation("io.grpc:grpc-netty-shaded:1.59.0")

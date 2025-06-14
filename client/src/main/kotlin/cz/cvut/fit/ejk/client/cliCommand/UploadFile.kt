@@ -7,6 +7,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.file
+import com.github.ajalt.clikt.parameters.types.int
 import com.google.protobuf.ByteString
 import cz.cvut.fit.ejk.shared.dto.CreateFileDto
 import cz.cvut.fit.ejk.shared.dto.GetFileDto
@@ -25,7 +26,7 @@ import java.io.File
 
 class UploadFile: CliktCommand(name = "upload") {
     private val file by option("--file").file(mustExist = true, mustBeReadable = true).required()
-    private val id by option("--id")
+    private val id by option("--id").int().required()
 
     fun fileToChunkedFlow(file: File, fileId: Int): Flow<FileServiceOuterClass.UploadRequest> = flow {
         val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
@@ -46,8 +47,6 @@ class UploadFile: CliktCommand(name = "upload") {
 
     override fun run() {
         runBlocking {
-
-
             val body = CreateFileDto(file.name, file.path, file.extension, file.length())
 
             val createFileResponse: GetFileDto = restClient.post("$baseUrl/file") {
@@ -56,26 +55,21 @@ class UploadFile: CliktCommand(name = "upload") {
             }.body()
             val fileId = createFileResponse.id
 
-            if (!id.isNullOrBlank()) {
-                val getUserResponse = restClient.get("$baseUrl/user/$id")
-                if (!getUserResponse.status.isSuccess()) {
-                    echo("User not found")
-                    return@runBlocking
-                }
-                if (!restClient.post("$baseUrl/user/$id/file/$fileId").status.isSuccess()) {
-                    echo("Could not add file $fileId to user $id")
-                }
-            }
+            val getUserResponse = restClient.get("$baseUrl/user/$id")
 
+            if (!getUserResponse.status.isSuccess()) {
+                echo("User not found")
+                return@runBlocking
+                }
+            if (!restClient.post("$baseUrl/user/$id/file/$fileId").status.isSuccess()) {
+                echo("Could not add file $fileId to user $id")
+                }
 
             val stub = FileServiceGrpcKt.FileServiceCoroutineStub(channel)
             stub.uploadFile(fileToChunkedFlow(file, fileId))
 
             channel.shutdown()
         }
-
-
-
     }
 
 }
