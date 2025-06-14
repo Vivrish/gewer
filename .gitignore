@@ -37,3 +37,8 @@ out/
 
 .env
 .kotlin
+
+gewer-client
+gradle/
+gradlew
+gradlew.bat
