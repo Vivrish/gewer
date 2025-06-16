@@ -1,42 +1,27 @@
-# Stage 1: build
-# 1. Use official Gradle image with JDK
-# 2. Copy only build scripts to cache deps
-# 3. Resolve dependencies (cached)
-# 4. Copy source & build
-
 # syntax=docker/dockerfile:1.4
 FROM gradle:8.5-jdk17 AS build
 
 WORKDIR /app
 
-# 1. Copy root gradle configs
 COPY settings.gradle.kts gradle.properties ./
 
-# 2. Copy shared & client build scripts
 COPY shared/build.gradle.kts shared/
 COPY client/build.gradle.kts client/
 
-# 3. Cache dependencies
-#    - downloads all deps without source code changes
 RUN --mount=type=cache,target=/home/gradle/.gradle \
     gradle client:dependencies \
       --no-daemon --configure-on-demand --parallel
 
-# 4. Copy all sources
 COPY shared/src shared/src
 COPY client/src client/src
 
-# 5. Compile & package
 RUN --mount=type=cache,target=/home/gradle/.gradle \
     gradle client:shadowJar \
       --no-daemon --configure-on-demand --parallel
 
-# Stage 2: runtime image
 FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
-
-# Copy only the fat jar
 COPY --from=build /app/client/build/libs/client-*.jar app.jar
 
 ENTRYPOINT ["java","-jar","/app/app.jar"]

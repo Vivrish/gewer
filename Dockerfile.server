@@ -1,28 +1,22 @@
 FROM gradle:8.5-jdk17 AS build
 WORKDIR /app
 
-# 1. Copy root gradle configs
 COPY settings.gradle.kts gradle.properties ./
 
-# 2. Copy shared & server build scripts
 COPY shared/build.gradle.kts shared/
 COPY server/build.gradle.kts server/
 
-# 3. Cache dependencies
 RUN --mount=type=cache,target=/home/gradle/.gradle \
     gradle server:dependencies \
       --no-daemon --configure-on-demand --parallel
 
-# 4. Copy all sources
 COPY shared/src shared/src
 COPY server/src server/src
 
-# 5. Compile & package
 RUN --mount=type=cache,target=/home/gradle/.gradle \
     gradle server:shadowJar \
       --no-daemon --configure-on-demand --parallel
 
-# Runtime
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=build /app/server/build/libs/server-*.jar app.jar
